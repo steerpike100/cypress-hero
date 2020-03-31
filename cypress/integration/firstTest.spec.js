@@ -1,7 +1,7 @@
 /// <reference types="cypress"/>
 
 describe("Our second suite", () => {
-  it('first test', () => {
+  it("first test", () => {
     cy.visit("/");
 
     cy.contains("Forms").click();
@@ -37,7 +37,7 @@ describe("Our second suite", () => {
     //The most recommended way by Cypress
     cy.get('[data-cy="imputEmail1"]');
   });
-  it('second test', () => {
+  it("second test", () => {
     cy.visit("/");
 
     cy.contains("Forms").click();
@@ -60,7 +60,7 @@ describe("Our second suite", () => {
     cy.contains("nb-card", "Horizontal form").find('[type="email"]');
   });
 
-  it('then and wrap methods', () => {
+  it("then and wrap methods", () => {
     cy.visit("/");
     cy.contains("Forms").click();
     cy.contains("Form Layouts").click();
@@ -80,7 +80,7 @@ describe("Our second suite", () => {
     // secondForm.find('[for="exampleInputEmail1"]').should('contain', 'Email address')
 
     //Cypress Style
-    cy.contains('nb-card', 'Using the Grid').then(firstForm => {
+    cy.contains("nb-card", "Using the Grid").then(firstForm => {
       const emailLabelFirst = firstForm.find('[for="inputEmail1"]').text();
       const passwordLabelFirst = firstForm
         .find('[for="inputPassword2"]')
@@ -123,7 +123,7 @@ describe("Our second suite", () => {
       });
 
     //4 Cypress with Invoke & native assertion
-    cy.contains('nb-card', 'Basic form')
+    cy.contains("nb-card", "Basic form")
       .find("nb-checkbox")
       .click()
       .find(".custom-checkbox")
@@ -131,7 +131,7 @@ describe("Our second suite", () => {
       .should("contain", "checked");
 
     //5. Cypress & Chai with invoke
-    cy.contains('nb-card', 'Basic form')
+    cy.contains("nb-card", "Basic form")
       .find("nb-checkbox")
       .find(".custom-checkbox")
       .invoke("attr", "class")
@@ -140,7 +140,7 @@ describe("Our second suite", () => {
       });
   });
 
-  it('assert property', () => {
+  it("assert property", () => {
     cy.visit("/");
 
     cy.contains("Forms").click();
@@ -156,46 +156,80 @@ describe("Our second suite", () => {
           .invoke("prop", "value")
           .should("contain", "Mar 30, 2020");
       });
-    })
+  });
 
-    it('radio buttons', () => {
-        cy.visit("/");
+  it("radio buttons", () => {
+    cy.visit("/");
 
-        cy.contains('Forms').click();
-        cy.contains('Form Layout').click()
+    cy.contains("Forms").click();
+    cy.contains("Form Layout").click();
 
-        cy.contains('nb-card', 'Using the Grid').find('[type="radio"]').then( radioButtons => {
-            cy.wrap(radioButtons)
-            .first()
-            .check({force:true})
-            .should('be.checked')
+    cy.contains("nb-card", "Using the Grid")
+      .find('[type="radio"]')
+      .then(radioButtons => {
+        cy.wrap(radioButtons)
+          .first()
+          .check({ force: true })
+          .should("be.checked");
 
-            cy.wrap(radioButtons )
-            .eq(1)
-            .check({force:true})
+        cy.wrap(radioButtons)
+          .eq(1)
+          .check({ force: true });
 
-            cy.wrap(radioButtons)
-            .first()
-            .should('not.be.checked')
+        cy.wrap(radioButtons)
+          .first()
+          .should("not.be.checked");
 
-            cy.wrap(radioButtons)
-            .eq(2)
-            .should('be.disabled')
-        })
+        cy.wrap(radioButtons)
+          .eq(2)
+          .should("be.disabled");
+      });
+  });
 
-    })
+  it("check boxes", () => {
+    cy.visit("/");
 
-    it.only('check boxes', () =>{
-        cy.visit("/");
+    cy.contains("Modal & Overlays").click();
+    cy.contains("Toastr").click();
+    //click method to work with check buttons
+    cy.get('[type="checkbox"]')
+      .eq(1)
+      .click({ force: true });
+    //check to work with only checkbox and radio buttons
+    cy.get('[type="checkbox"]').check({ force: true });
+  });
 
-        cy.contains('Modal & Overlays').click();
-        cy.contains('Toastr').click()
-        //click method to work with check buttons
-        cy.get('[type="checkbox"]').eq(1).click({force:true})
-        //check to work with only checkbox and radio buttons
-        cy.get('[type="checkbox"]').check({force:true})
-    })
-})
+  it.only("lists and dropdowns", () => {
+    cy.visit("/");
+    //1
+    cy.get('nav nb-select').click()
+    cy.get('.options-list').contains('Dark').click()
+    cy.get('nav nb-select').should('contain', 'Dark')
+    cy.get('nb-layout-header nav').should('have.css', 'background-color', 'rgb(34, 43, 69)')
+    //2
+    cy.get("nav nb-select").then(dropdown => {
+      cy.wrap(dropdown).click();
+      cy.get(".options-list nb-option").each((listItem, index) => {
+        const itemText = listItem.text().trim();
 
+        const colors = {
+          Light: "rgb(255, 255, 255)",
+          Dark: "rgb(34, 43, 69)",
+          Cosmic: "rgb(50, 50, 89)",
+          Corporate: "rgb(255, 255, 255)"
+        };
 
-
+        cy.wrap(listItem).click();
+        cy.wrap(dropdown).should("contain", itemText);
+        cy.get("nb-layout-header nav").should(
+          "have.css",
+          "background-color",
+          colors[itemText]
+        );
+        if (index < 3) {
+          cy.wrap(dropdown).click();
+        }
+      });
+    });
+  });
+});
