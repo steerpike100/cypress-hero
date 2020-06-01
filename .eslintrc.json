@@ -1,0 +1,31 @@
+{
+  "extends": ["airbnb", "prettier"],
+  "plugins": ["prettier", "chai-friendly"],
+  "rules": {
+    "prettier/prettier": ["error"],
+    "no-unused-expressions": 0,
+    "chai-friendly/no-unused-expressions": 2
+  },
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module",
+    "allowImportExportEverywhere": true
+  },
+  "globals": {
+    "cy": true,
+    "Cypress": true,
+    "before": true,
+    "after": true,
+    "describe": true,
+    "beforeEach": true,
+    "it": true,
+    "expect": true,
+    "document": true,
+    "test": true,
+    "afterEach": true
+  }
+}
