@@ -273,7 +273,7 @@ describe('Our first suite', () => {
     cy.get('nb-tooltip').should('contain', 'This is a tooltip')
   })
 
-    it.only('Dialog box', () =>{
+    it('Dialog box', () =>{
       cy.visit('/')
       cy.contains('Tables & Data').click()
       cy.contains('Smart Table').click()

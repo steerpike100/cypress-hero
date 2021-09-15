@@ -7,7 +7,7 @@ describe('Test with Page Objects', () => {
     cy.visit('/');
   });
 
-  it('verify navigation across the pages', () => {
+  it.only('verify navigation across the pages', () => {
     navigateTo.formLayoutsPage();
     navigateTo.datePickerPage();
     navigateTo.smartTablePage();
@@ -15,12 +15,12 @@ describe('Test with Page Objects', () => {
     navigateTo.toastrPage();
   });
 
-  it.only('should submit Inline and Basic form and select tomorrows date in calendar', () => {
-    navigateTo.formLayoutsPage();
-    onFormLayoutsPage.submitInlineFormWithNameAndEmail('Steve', 'test@test.com');
-    onFormLayoutsPage.submitBasicFormWithEmailAndPassword('test@test.com', 'password');
-    navigateTo.datePickerPage();
-    onDatePickerPage.selectCommonDatepickerDateFromToday(1);
-    onDatePickerPage.selectDatePickerWithRangeFromToday(7, 14);
-  });
+  // it('should submit Inline and Basic form and select tomorrows date in calendar', () => {
+  //   navigateTo.formLayoutsPage();
+  //   onFormLayoutsPage.submitInlineFormWithNameAndEmail('Steve', 'test@test.com');
+  //   onFormLayoutsPage.submitBasicFormWithEmailAndPassword('test@test.com', 'password');
+  //   navigateTo.datePickerPage();
+  //   onDatePickerPage.selectCommonDatepickerDateFromToday(1);
+  //   onDatePickerPage.selectDatePickerWithRangeFromToday(7, 14);
+  // });
 });
